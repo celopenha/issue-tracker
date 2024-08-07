@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "../../validationSchema";
 import { z } from "zod";
 import ErrorMessage from "../../_components/ErrorMessage";
+import Spinner from "../../_components/Spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -24,6 +25,7 @@ const NewIssuePage = () => {
   });
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
@@ -31,7 +33,9 @@ const NewIssuePage = () => {
         className="max-w-xl space-y-3"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setIsSubmitting(true)
             const response = await axios.post("/api/issues", data);
+            setIsSubmitting(false)
             router.push("/issues");
           } catch (error) {
             console.error(error);
@@ -59,7 +63,7 @@ const NewIssuePage = () => {
             <Callout.Text>{error}</Callout.Text>
           </Callout.Root>
         )}
-        <Button>Submit new Issue</Button>
+        <Button disabled={isSubmitting}>Submit new Issue{isSubmitting && <Spinner />}</Button>
       </form>
     </>
   );
