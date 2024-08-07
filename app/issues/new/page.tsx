@@ -27,7 +27,7 @@ const NewIssuePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function onSubmit(data) {
+  async function onSubmit(data: any) {
     try {
       setIsSubmitting(true);
       await axios.post("/api/issues", data);
