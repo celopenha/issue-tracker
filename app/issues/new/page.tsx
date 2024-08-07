@@ -27,33 +27,34 @@ const NewIssuePage = () => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  async function onSubmit(data) {
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/issues", data);
+      setIsSubmitting(false);
+      router.push("/issues");
+    } catch (error) {
+      console.error(error);
+      setError("An unexcpected error occurred");
+    }
+  }
+
   return (
     <>
-      <form
-        className="max-w-xl space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true)
-            const response = await axios.post("/api/issues", data);
-            setIsSubmitting(false)
-            router.push("/issues");
-          } catch (error) {
-            console.error(error);
-            setError("An unexcpected error occurred");
-          }
-        })}
-      >
+      <form className="max-w-xl space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root placeholder="Title" {...register("title")}>
           <TextField.Slot>
             <CiTextAlignLeft />
           </TextField.Slot>
         </TextField.Root>
-        {errors.title &&<ErrorMessage>{errors.title.message}</ErrorMessage>}
+        {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         <TextArea
           placeholder="Write a description…"
           {...register("description")}
         />
-        {errors.description &&<ErrorMessage>{errors.description.message}</ErrorMessage>}
+        {errors.description && (
+          <ErrorMessage>{errors.description.message}</ErrorMessage>
+        )}
 
         {error && (
           <Callout.Root color="red">
@@ -63,7 +64,9 @@ const NewIssuePage = () => {
             <Callout.Text>{error}</Callout.Text>
           </Callout.Root>
         )}
-        <Button disabled={isSubmitting}>Submit new Issue{isSubmitting && <Spinner />}</Button>
+        <Button disabled={isSubmitting}>
+          Submit new Issue{isSubmitting && <Spinner />}
+        </Button>
       </form>
     </>
   );
