@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "../../validationSchema";
 import { z } from "zod";
+import ErrorMessage from "../../_components/ErrorMessage";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -43,12 +44,12 @@ const NewIssuePage = () => {
             <CiTextAlignLeft />
           </TextField.Slot>
         </TextField.Root>
-        {errors.title && <Text as="p" color="red">{errors.title.message}</Text>}
+        {errors.title &&<ErrorMessage>{errors.title.message}</ErrorMessage>}
         <TextArea
           placeholder="Write a description…"
           {...register("description")}
         />
-        {errors.description && <Text as="p" color="red">{errors.description.message}</Text>}
+        {errors.description &&<ErrorMessage>{errors.description.message}</ErrorMessage>}
 
         {error && (
           <Callout.Root color="red">
