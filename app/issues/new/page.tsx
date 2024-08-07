@@ -2,6 +2,8 @@
 import { TextField, TextArea, Button } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { CiTextAlignLeft } from "react-icons/ci";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 
 const NewIssuePage = () => {
   const [text, setText] = useState("");
@@ -21,7 +23,7 @@ const NewIssuePage = () => {
           <CiTextAlignLeft />
         </TextField.Slot>
       </TextField.Root>
-      <TextArea placeholder="Write a description for this issue..." />
+      <SimpleMDE/>
       <Button>Submit new Issue</Button>
     </div>
   );
