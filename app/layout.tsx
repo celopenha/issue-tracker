@@ -21,7 +21,7 @@ export default function RootLayout({
       <body>
         <Theme appearance="light">
           <NavBar />
-          <main className="p-6">{children}</main>
+          <main className="p-6 max-w-screen-xl">{children}</main>
         </Theme>
       </body>
     </html>
