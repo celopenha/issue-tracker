@@ -8,13 +8,13 @@ import "easymde/dist/easymde.min.css";
 import { MdErrorOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createIssueSchema } from "../../validationSchema";
+import { issueSchema } from "../../validationSchema";
 import { z } from "zod";
 import ErrorMessage from "../../_components/ErrorMessage";
 import Spinner from "../../_components/Spinner";
 import { Issue } from "@prisma/client";
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const {
@@ -22,7 +22,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const router = useRouter();
   const [error, setError] = useState("");
