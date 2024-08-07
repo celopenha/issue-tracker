@@ -7,7 +7,7 @@ const IssuesPage = () => {
     <>
       <h1>List of issues</h1>
       <Link href="/issues/new">
-        <Button>Click here to create and issue</Button>
+        <Button>Click here to create an issue</Button>
       </Link>
     </>
   );
