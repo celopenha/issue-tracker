@@ -1,7 +1,8 @@
 import IssueStatusBadge from "@/app/_components/IssueStatusBadge";
+import { Issue } from "@prisma/client";
 import { Heading, Text, Card } from "@radix-ui/themes";
 
-const IssueDetails = ({ issue }: any) => {
+const IssueDetails = ({ issue }: {issue: Issue}) => {
   return (
     <>
       <Heading as="h2">{issue.title}</Heading>
