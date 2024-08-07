@@ -41,6 +41,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       setIsSubmitting(false);
 
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       console.error(error);
       setError("An unexcpected error occurred");
