@@ -11,7 +11,6 @@ const IssuesPage = async () => {
   await delay(2000);
   return (
     <>
-      <h1>List of issues</h1>
       <IssueActions />
       <Table.Root variant="surface">
         <Table.Header>
