@@ -9,12 +9,12 @@ import Spinner from "@/app/_components/Spinner";
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(false);
 
   const onDeleteIssue = async () => {
     try {
-      setIsLoading(true);
+      setIsDeleting(true);
       await axios.delete(`/api/issues/${issueId}`);
       router.push("/issues");
       router.refresh();
@@ -22,7 +22,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
       console.error(error);
       setError(true);
     } finally {
-      setIsLoading(false);
+      setIsDeleting(false);
     }
   };
 
@@ -30,9 +30,9 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red">
+          <Button disabled={isDeleting} color="red">
             <MdDeleteOutline />
-            Delete issue
+            Delete issue {isDeleting && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content maxWidth="450px">
@@ -52,9 +52,8 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
                 onClick={onDeleteIssue}
                 variant="solid"
                 color="red"
-                disabled={isLoading}
               >
-                Confirm Deletion {isLoading && <Spinner />}
+                Confirm Deletion
               </Button>
             </AlertDialog.Action>
           </Flex>
