@@ -16,29 +16,31 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="flex space-x-6 border-b h-14 items-center px-5 ">
-      <Link className="m-l-2" href="/">
-        <AiFillBug />
-      </Link>
-      <ul className="flex space-x-6">
-        {links.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              // className={`${
-              //   link.href === pathname ? `text-zinc-800 font-bold` : `text-zinc-500`
-              // } hover:text-zinc-800 transition-colors`}
-              className={classnames({
-                "text-zinc-800 font-bold": link.href === pathname,
-                "text-zinc-500": link.href !== pathname,
-                "hover:text-zinc-800 transition-colors duration-200": true,
-              })}
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <nav className="flex justify-between space-x-6 border-b h-14 items-center px-5 ">
+      <div className="flex items-center space-x-3">
+        <Link className="m-l-2" href="/">
+          <AiFillBug />
+        </Link>
+        <ul className="flex space-x-6">
+          {links.map((link) => (
+            <li key={link.label}>
+              <Link
+                href={link.href}
+                // className={`${
+                //   link.href === pathname ? `text-zinc-800 font-bold` : `text-zinc-500`
+                // } hover:text-zinc-800 transition-colors`}
+                className={classnames({
+                  "text-zinc-800 font-bold": link.href === pathname,
+                  "text-zinc-500": link.href !== pathname,
+                  "hover:text-zinc-800 transition-colors duration-200": true,
+                })}
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
       <Box>
         {status === "authenticated" && (
           <Link href="/api/auth/signout">Log out</Link>
