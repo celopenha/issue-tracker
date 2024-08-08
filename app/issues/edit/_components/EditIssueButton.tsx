@@ -4,7 +4,7 @@ import { FaRegEdit } from "react-icons/fa";
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
   return (
-    <Link href={`/issues/${issueId}/edit`}>
+    <Link href={`/issues/edit/${issueId}`}>
       <Button>
         <FaRegEdit /> Edit issue
       </Button>
