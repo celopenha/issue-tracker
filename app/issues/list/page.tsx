@@ -5,7 +5,9 @@ import IssueActions from "./issueActions";
 import Link from "../../_components/Link";
 
 const IssuesPage = async () => {
-  const issues = await prisma.issue.findMany();
+  const issues = await prisma.issue.findMany({
+    orderBy: {createdAt: "desc"}
+  });
   return (
     <>
       <IssueActions />
@@ -25,10 +27,7 @@ const IssuesPage = async () => {
           {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link
-                  href={`/issues/${issue.id}`}
-                  key={issue.id}
-                >
+                <Link href={`/issues/${issue.id}`} key={issue.id}>
                   {issue.title}
                 </Link>
                 <div className="block md:hidden text-neutral-500">
