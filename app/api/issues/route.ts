@@ -14,8 +14,20 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
+  const user = await prisma.user.findUnique({
+    where: { email: body.userEmail },
+  });
+
   const newIssue = await prisma.issue.create({
-    data: { title: body.title, description: body.description },
+    data: {
+      title: body.title,
+      description: body.description,
+      user: {
+        connect: {
+          id: user!.id,
+        },
+      },
+    },
   });
 
   return NextResponse.json(newIssue, { status: 201 });
