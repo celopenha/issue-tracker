@@ -13,10 +13,14 @@ import { z } from "zod";
 import ErrorMessage from "../../_components/ErrorMessage";
 import Spinner from "../../_components/Spinner";
 import { Issue } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import prisma from "@/prisma/client";
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
+  const { status, data: session } = useSession();
+
   const {
     register,
     handleSubmit,
@@ -34,8 +38,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       if (issue) {
         await axios.patch(`/api/issues/${issue.id}`, data);
       } else {
-        console.log(data)
-        await axios.post("/api/issues", data);
+        await axios.post("/api/issues", {...data, userEmail: session?.user?.email});
       }
       router.push("/issues/list");
       router.refresh();
