@@ -5,6 +5,7 @@ import { AiFillBug } from "react-icons/ai";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
 import { Avatar, Box, DropdownMenu, Text } from "@radix-ui/themes";
+import Skeleton from "react-loading-skeleton";
 
 const NavBar = () => {
   return (
@@ -36,9 +37,8 @@ const NavLinks = () => {
           <Link
             href={link.href}
             className={classnames({
-              "text-zinc-800 font-bold": link.href === pathname,
-              "text-zinc-500": link.href !== pathname,
-              "hover:text-zinc-800 transition-colors duration-200": true,
+              "!text-zinc-800 font-bold": link.href === pathname,
+              "nav-link": true,
             })}
           >
             {link.label}
@@ -53,11 +53,11 @@ const AuthStatus = () => {
   const { status, data: session } = useSession();
 
   if (status === "loading") {
-    return null;
+    return <Skeleton width="3rem" height="3rem" />;
   }
 
   if (status === "unauthenticated") {
-    return <Link href="/api/auth/signin">Log in</Link>;
+    return <Link className="nav-link" href="/api/auth/signin">Log in</Link>;
   }
 
   if (status === "authenticated") {

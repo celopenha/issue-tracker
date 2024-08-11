@@ -1,52 +1,74 @@
 import prisma from "@/prisma/client";
-import { Flex, Text, Button, Table } from "@radix-ui/themes";
-import IssueStatusBadge from "../../_components/IssueStatusBadge";
 import IssueActions from "./issueActions";
-import Link from "../../_components/Link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth/authOptions";
+import { Status } from "@prisma/client";
+import Pagination from "@/app/_components/Pagination";
+import IssueTable, { IssueTableProps, tableColumns } from "./IssueTable";
+import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 
-const IssuesPage = async () => {
+const IssuesPage = async ({ searchParams }: IssueTableProps) => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) return null;
+
+  const email = session!.user!.email;
+
+  const statuses = Object.values(Status);
+
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
+  const orderBy = tableColumns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: searchParams.order }
+    : undefined;
+
+  const defaultOrderBy: {} = {
+    createdAt: "desc",
+  };
+
+  const page = parseInt(searchParams.page) || 1;
+
+  const pageSize: number = parseInt(process.env.PAGE_SIZE!) || 0;
+
+  const where = {
+    user: { email: email || "" },
+    status,
+  };
+
   const issues = await prisma.issue.findMany({
-    orderBy: {createdAt: "desc"}
+    orderBy: orderBy ? orderBy : defaultOrderBy,
+    where,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
+
+  const issueCount = await prisma.issue.count({
+    where,
+  });
+
   return (
-    <>
+      <Flex direction={"column"} gap="4">
       <IssueActions />
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
-            </Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`} key={issue.id}>
-                  {issue.title}
-                </Link>
-                <div className="block md:hidden text-neutral-500">
-                  <IssueStatusBadge status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <IssueStatusBadge status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </>
+      <IssueTable searchParams={searchParams} issues={issues} />
+      <Pagination
+        itemCount={issueCount}
+        pageSize={pageSize}
+        currentPage={page}
+      />
+      </Flex>
   );
 };
+
 export const dynamic = "force-dynamic";
 
 export default IssuesPage;
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "View your project issues",
+};
