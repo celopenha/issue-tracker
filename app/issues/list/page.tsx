@@ -2,7 +2,10 @@ import prisma from "@/prisma/client";
 import IssueActions from "./issueActions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
+<<<<<<< HEAD
 import { Issue, Status } from "@prisma/client";
+=======
+>>>>>>> d70924b1d345c2db190a6db17cb1e66c558ed563
 import Pagination from "@/app/_components/Pagination";
 import IssueTable, { tableColumns } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
@@ -24,7 +27,7 @@ const IssuesPage = async ({
 
   const email = session!.user!.email;
 
-  const statuses = Object.values(Status);
+  const statuses = ["OPEN", "IN_PROGRESS", "CLOSE"];
 
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
