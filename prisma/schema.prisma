@@ -5,13 +5,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  OPEN
+  CLOSED
+  IN_PROGRESS
 }
 
 model Issue {
@@ -19,7 +21,7 @@ model Issue {
   userId      String?
   title       String
   description String
-  status      String   @default("OPEN")
+  status      Status
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

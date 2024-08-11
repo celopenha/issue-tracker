@@ -5,7 +5,6 @@ import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
-
 const IssueTable = ({
   searchParams,
   issues,

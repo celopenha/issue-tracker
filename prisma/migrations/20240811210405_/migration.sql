@@ -1,13 +1,13 @@
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('OPEN', 'IN_PROGRESS', 'CLOSED');
+CREATE TYPE "Status" AS ENUM ('OPEN', 'CLOSED', 'IN_PROGRESS');
 
 -- CreateTable
 CREATE TABLE "Issue" (
     "id" SERIAL NOT NULL,
     "userId" TEXT,
-    "title" VARCHAR(255) NOT NULL,
+    "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "status" "Status" NOT NULL DEFAULT 'OPEN',
+    "status" "Status" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
