@@ -2,19 +2,29 @@ import prisma from "@/prisma/client";
 import IssueActions from "./issueActions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
+import { Issue, Status } from "@prisma/client";
 import Pagination from "@/app/_components/Pagination";
-import IssueTable, { IssueTableProps, tableColumns } from "./IssueTable";
+import IssueTable, { tableColumns } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 
-const IssuesPage = async ({ searchParams }: IssueTableProps) => {
+const IssuesPage = async ({
+  searchParams,
+}: {
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    page: string;
+    order: string;
+  };
+}) => {
   const session = await getServerSession(authOptions);
 
   if (!session) return null;
 
   const email = session!.user!.email;
 
-  const statuses = ["OPEN", "IN_PROGRESS", "CLOSE"];
+  const statuses = Object.values(Status);
 
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
@@ -51,7 +61,7 @@ const IssuesPage = async ({ searchParams }: IssueTableProps) => {
   });
 
   return (
-      <Flex direction={"column"} gap="4">
+    <Flex direction={"column"} gap="4">
       <IssueActions />
       <IssueTable searchParams={searchParams} issues={issues} />
       <Pagination
@@ -59,15 +69,15 @@ const IssuesPage = async ({ searchParams }: IssueTableProps) => {
         pageSize={pageSize}
         currentPage={page}
       />
-      </Flex>
+    </Flex>
   );
 };
 
 export const dynamic = "force-dynamic";
 
-export default IssuesPage;
-
 export const metadata: Metadata = {
   title: "Issue Tracker - Issue List",
   description: "View your project issues",
 };
+
+export default IssuesPage;

@@ -1,22 +1,23 @@
-import { Issue } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import Link from "../../_components/Link";
 import IssueStatusBadge from "../../_components/IssueStatusBadge";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
-export interface IssueQuery {
-  status: string;
-  orderBy: keyof Issue;
-  page: string
-  order: string;
-}
-export interface IssueTableProps {
-  searchParams: IssueQuery;
-  issues: Issue[];
-}
 
-const IssueTable = ({ searchParams, issues }: IssueTableProps) => {
+const IssueTable = ({
+  searchParams,
+  issues,
+}: {
+  issues: Issue[];
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    page: string;
+    order: string;
+  };
+}) => {
   return (
     <Table.Root variant="surface">
       <Table.Header>
