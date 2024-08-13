@@ -1,4 +1,4 @@
-import { Issue, Status } from "@prisma/client";
+import { Issue } from "@prisma/client";
 import Link from "../../_components/Link";
 import IssueStatusBadge from "../../_components/IssueStatusBadge";
 import { Table } from "@radix-ui/themes";
@@ -11,7 +11,7 @@ const IssueTable = ({
 }: {
   issues: Issue[];
   searchParams: {
-    status: Status;
+    status: any;
     orderBy: keyof Issue;
     page: string;
     order: string;

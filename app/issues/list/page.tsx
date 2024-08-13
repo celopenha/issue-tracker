@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import IssueActions from "./issueActions";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/authOptions";
-import { Issue, Status } from "@prisma/client";
+import { Issue } from "@prisma/client";
 import Pagination from "@/app/_components/Pagination";
 import IssueTable, { tableColumns } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
@@ -12,7 +12,7 @@ const IssuesPage = async ({
   searchParams,
 }: {
   searchParams: {
-    status: Status;
+    status: any;
     orderBy: keyof Issue;
     page: string;
     order: string;
