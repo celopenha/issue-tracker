@@ -1,4 +1,3 @@
-
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { NextAuthOptions } from "next-auth";
@@ -18,18 +17,21 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch(`${process.env.NEXTAUTH_URL}/api/signin`, {
-            method: "POST",
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            `${process.env.NEXTAUTH_URL}/api/signin`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                email: credentials?.email,
+                password: credentials?.password,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
           const user = await response.json();
-          console.log(user)
+          console.log(user);
           if (user.email) {
             return user;
           } else {
@@ -41,6 +43,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
   jwt: {
@@ -49,24 +54,24 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     session({ session, token }) {
-      console.log("session callback", {session, token});
+      console.log("session callback", { session, token });
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
-          role: token.role
-        }
-      }
+          role: token.role,
+        },
+      };
     },
     jwt({ token, user }) {
-      if(user){
+      if (user) {
         const u = user as unknown as User;
         return {
           ...token,
           id: u.id,
-          role: u.role
-        }
+          role: u.role,
+        };
       }
       return token;
     },

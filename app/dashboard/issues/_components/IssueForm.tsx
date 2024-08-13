@@ -8,10 +8,10 @@ import "easymde/dist/easymde.min.css";
 import { MdErrorOutline } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { issueSchema } from "../../validationSchema";
+import { issueSchema } from "../../../validationSchema";
 import { z } from "zod";
-import ErrorMessage from "../../_components/ErrorMessage";
-import Spinner from "../../_components/Spinner";
+import ErrorMessage from "../../../_components/ErrorMessage";
+import Spinner from "../../../_components/Spinner";
 import { Issue } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import prisma from "@/prisma/client";
@@ -40,7 +40,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       } else {
         await axios.post("/api/issues", {...data, userEmail: session?.user?.email});
       }
-      router.push("/issues/list");
+      router.push("/dashboard/issues/list");
       router.refresh();
     } catch (error) {
       console.error(error);

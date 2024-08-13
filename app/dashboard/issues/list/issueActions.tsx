@@ -7,7 +7,7 @@ const IssueActions = () => {
     <div className=" flex justify-between">
       <IssueStatusFilter />
       <Button>
-        <Link href="/issues/new">New Issue</Link>
+        <Link href="/dashboard/issues/new">New Issue</Link>
       </Button>
     </div>
   );

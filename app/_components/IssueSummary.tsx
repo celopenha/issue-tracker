@@ -26,7 +26,7 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
         <Link
           className="text-sm font-medium hover:cursor-pointer hover:scale-110 transition-all duration-200"
           key={container.label}
-          href={`/issues/list?status=${container.status}`}
+          href={`/dashboard/issues/list?status=${container.status}`}
         >
           <Card>
             <Flex direction="column" gap={"1"}>

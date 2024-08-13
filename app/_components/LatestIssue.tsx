@@ -26,7 +26,7 @@ const LatestIssueTable = async () => {
           {latestIssues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link className="cursor-pointer" href={`/issues/${issue.id}`}>
+                <Link className="cursor-pointer" href={`/dashboard/issues/${issue.id}`}>
                   <Flex justify="between">
                     <Flex direction="column" align="start" gap="2">
                       <Text className="text-sm font-medium">{issue.title}</Text>

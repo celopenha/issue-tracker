@@ -1,6 +1,6 @@
 import { Issue } from "@prisma/client";
-import Link from "../../_components/Link";
-import IssueStatusBadge from "../../_components/IssueStatusBadge";
+import Link from "../../../_components/Link";
+import IssueStatusBadge from "../../../_components/IssueStatusBadge";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
@@ -54,7 +54,7 @@ const IssueTable = ({
         {issues.map((issue) => (
           <Table.Row key={issue.id}>
             <Table.Cell>
-              <Link href={`/issues/${issue.id}`} key={issue.id}>
+              <Link href={`/dashboard/issues/${issue.id}`} key={issue.id}>
                 {issue.title}
               </Link>
             </Table.Cell>

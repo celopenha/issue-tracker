@@ -1,9 +1,9 @@
 import prisma from "@/prisma/client";
-import IssueSummary from "./_components/IssueSummary";
-import LatestIssueTable from "./_components/LatestIssue";
+import IssueSummary from "../_components/IssueSummary";
+import LatestIssueTable from "../_components/LatestIssue";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./auth/authOptions";
-import IssueChart from "./_components/IssueChart";
+import { authOptions } from "../auth/authOptions";
+import IssueChart from "../_components/IssueChart";
 import { Metadata } from "next";
 
 export default async function Home() {

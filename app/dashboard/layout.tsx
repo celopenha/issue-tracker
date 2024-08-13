@@ -1,11 +1,11 @@
-import "./globals.css";
-import NavBar from "./_components/navbar";
-import "./theme-config.css";
+import NavBar from "../_components/navbar";
+import "../globals.css";
+import "../theme-config.css";
 import "@radix-ui/themes/styles.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 import { Inter } from "next/font/google";
 import AuthProvider from "@/app/auth/Provider";
-import QueryClientProvider from "./QueryClientProvider";
+import QueryClientProvider from "../QueryClientProvider";
 
 const inter = Inter({
   subsets: ["latin"],
